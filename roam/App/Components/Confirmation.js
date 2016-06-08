@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Text, View, Image, TouchableHighlight, ListView} from 'react-native'
 var styles = require('./Helpers/styles');
+var _ = require('underscore');
 
 class Confirmation extends Component {
 
@@ -11,30 +12,67 @@ class Confirmation extends Component {
   componentWillMount() {
     //handle fetch
     let coordinates = {};
+    var context = this;
+
+    const fetchRoam = function(coordinates, bounds) {
+      fetch('http://localhost:3000/roam', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            coordinates: coordinates,
+            userEmail: context.props.navigator.navigationContext._currentRoute.email, 
+            time: context.props.navigator.navigationContext._currentRoute.selectedTime, 
+            boundingBox: bounds
+          })
+        })
+        .then((res) => {
+          if (res === 'You have been matched!'){
+            clearInterval(clearTimer);
+            console.log('FOUND A MATCH!!!!!!!!!!');
+            //TODO: send push notification to user
+              //TODO: modify render Text to include this change
+            //TODO: send user to new RoamDetails Page
+          }
+        })
+        .catch((error) => {
+          console.log('Error handling submit:', error);
+        });
+    } 
+
+    const d_fetchRoam = _.debounce(fetchRoam, tenMinutes, true);
 
     navigator.geolocation.getCurrentPosition( position => {
-      coordinates = position;
-      fetch('http://localhost:3000/roam', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          time: this.state.selectedOption,
-          coordinates: coordinates,
-          userEmail: this.props.navigator.navigationContext._currentRoute.email
-        })
-      })
-      .then((res) => {
-        if (res === 'You have been matched!'){
-          //send push notification to user
-          
-        }
-      })
-      .catch((error) => {
-        console.log('Error handling submit:', error);
-      });
+      let time = this.props.navigator.navigationContext._currentRoute.selectedTime;
+      switch (time) {
+        case '1 hour':
+          time = 6;
+          break;
+        case '2 hours':
+          time = 12;
+          break;
+        case '4 hours':
+          time = 24;
+          break;
+        case 'Anytime':
+          time = 48;
+          break;
+      }
+
+      let bounds = 0.02;
+      let fetchCounter = 0;
+      const tenMinutes = 1000 * 60 * 10;
+      let clearTimer = setInterval(() => {
+        //TODO: optimization needs to be done here
+        //fetch could still not be done when another fetch is made
+        d_fetchRoam(position, bounds);
+
+        bounds += 0.04;
+        fetchCounter++;
+        fetchCounter === time ? clearInterval(clearTimer) : null;
+      }, tenMinutes);
     });
   }
 

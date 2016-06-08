@@ -9,7 +9,8 @@ module.exports = function(req) {
   size if a roam hasn't been found within a given
   amount of time
   */
-  const offsetToDegrees = 0.02;
+  // const offsetToDegrees = 0.02;
+  const offsetToDegrees = req.body.boundingBox;
   //or user chooses mile radius
 
   var dateMS = Date.now();
