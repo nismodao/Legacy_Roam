@@ -17,6 +17,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     letterSpacing: 5
   },
+  chatRoom: {
+    marginBottom: 5,
+    marginTop: 5,
+    fontSize: 20,
+    fontWeight: "100",
+    fontFamily: 'Gill Sans',
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+    letterSpacing: 5
+  },
   header: {
     marginBottom: 20,
     fontSize: 50,
@@ -89,6 +100,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center'
   },
+  chatImage: {
+    flex:1,
+    width:null,
+    height: null,
+    padding: 0,
+    marginTop: 5,
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
   errorMessage: {
     backgroundColor: 'transparent',
     color: '#ff0066',
@@ -122,6 +142,31 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center'
   },
+  image: {
+    height: 75,
+    borderRadius: 37.5,
+    width: 75,
+    flexDirection: 'row'
+  },
+  flowChat: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    marginBottom: 30,
+    marginLeft: 20
+  },
+  textInput: {
+    height: 40, 
+    width: 250,
+    marginLeft: 10,
+    marginTop: 15, 
+    borderColor: 'white',
+    color: 'white', 
+    borderWidth: 1,
+    borderRadius: 20, 
+    flexDirection: 'row'
+  }
+
 });
 
 module.exports = styles;

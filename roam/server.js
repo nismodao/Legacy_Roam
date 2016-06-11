@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var bodyParser = require('body-parser');
 var apoc = require('apoc');
 var bcrypt = require('bcrypt');
@@ -13,7 +15,6 @@ var boundingBoxGenerator = require('./App/Utils/boundingBoxGenerator');
 var roamOffGenerator = require('./App/Utils/roamOffGenerator');
 var saltRounds = 10;
 
-
 //config for email SMTP for gmail. We are send email notifications to users
 var smtpConfig = { 
   host: 'smtp.gmail.com',
@@ -25,6 +26,7 @@ var smtpConfig = {
   }
 };
 
+
 //transport vehicle for nodemailer to send out email
 var transporter = nodemailer.createTransport(smtpConfig); 
 
@@ -34,6 +36,22 @@ app.use(bodyParser.json());
 app.get('/', function(req, res){
   res.send('Hello World!');
 });
+
+//console.log('socket from server', socket);
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('message', function (message) {
+    console.log(message);
+    io.emit('message', message);
+  });
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+
+
+
+
 
 //Post to server on signup page
 app.post('/signup', function(req, res){
@@ -303,6 +321,6 @@ app.get('/history', function(req, res){
   });
 });
 
-app.listen(3000, function(){
+http.listen(3000, function(){
   console.log('Example app listening on port 3000!');
 });

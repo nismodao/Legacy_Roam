@@ -104,6 +104,13 @@ class Main extends Component {
                 component: Time
               });
             }
+          res.json();
+          this.props.navigator.push({
+            title: 'When are you free?',
+            email: email,
+            component: Time,
+            name: firstName,
+            picture: picture
           });
         })
         .catch((error) => {
