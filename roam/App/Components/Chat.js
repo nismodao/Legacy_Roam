@@ -32,7 +32,13 @@ class Chat extends React.Component {
       incomingText:'',
       roamers: [{
         name: this.props.navigator.navigationContext._currentRoute.name,
-        picture: this.props.navigator.navigationContext._currentRoute.picture}]
+        picture: this.props.navigator.navigationContext._currentRoute.picture},
+        {name: 'John',
+        picture: 'https://scontent.xx.fbcdn.net/v/t1.0-1/1601388_10151883655692100_428527377_n.jpg?oh=6e0143629667bbb887f231af3c7bb3ed&oe=5806E705'
+      },
+      {name: 'Prateek',
+      picture: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/10291170_10153189311017056_949488489653162510_n.jpg?oh=9e0ee478cb1fad31a22d084f597f3734&oe=58071360' 
+      }]
     }
   }
   fetchRoamers () {
@@ -56,12 +62,12 @@ class Chat extends React.Component {
     // this.setState({roamers: temp});
   }
   componentDidMount () {
-    var profile = this.state.roamers[0];
-    var temp = [];
-    for (var i = 0; i< 3; i++) {
-      temp.push(profile);
-    }
-    this.setState({roamers: temp});
+    // var profile = this.state.roamers[0];
+    // var temp = [];
+    // for (var i = 0; i< 4; i++) {
+    //   temp.push(profile);
+    // }
+    // this.setState({roamers: temp});
   }
 
   handleMessage (event) {
