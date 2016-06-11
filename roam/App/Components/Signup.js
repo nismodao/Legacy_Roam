@@ -69,7 +69,9 @@ class SignUp extends Component {
           this.props.navigator.push({
             title: firstName + ' -- when are you free?',
             email: email,
-            component: Time
+            component: Time,
+            name: firstName,
+            picture: picture
           });
         })
         .catch((error) => {
@@ -203,13 +205,6 @@ class SignUp extends Component {
           underlayColor="white" >
             <Text style={styles.buttonText}> Create Account </Text>
         </TouchableHighlight>
-        {/* This is the loading animation when isLoading is set to true */}
-        <ActivityIndicatorIOS
-          animating={this.state.isLoading}
-          color="#111"
-          size="large"></ActivityIndicatorIOS>
-        {showErr}
-
         <LoginButton
           style={styles.button}
           readPermissions={["email","user_friends", "public_profile"]}
@@ -228,7 +223,14 @@ class SignUp extends Component {
               }
             }
           }
-          onLogoutFinished={() => alert("logout.")}/>
+          />
+        {/* This is the loading animation when isLoading is set to true */}
+        <ActivityIndicatorIOS
+          animating={this.state.isLoading}
+          color="#111"
+          size="large"></ActivityIndicatorIOS>
+        {showErr}
+
       </Image>
     )
   }

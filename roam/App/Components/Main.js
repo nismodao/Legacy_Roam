@@ -71,7 +71,9 @@ class Main extends Component {
           this.props.navigator.push({
             title: 'When are you free?',
             email: email,
-            component: Time
+            component: Time,
+            name: firstName,
+            picture: picture
           });
         })
         .catch((error) => {
