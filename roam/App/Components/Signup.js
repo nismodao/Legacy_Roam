@@ -42,13 +42,13 @@ class SignUp extends Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log('DATA:!!!!!', data);
         var firstName = data.name.split(" ")[0];
         var lastName = data.name.split(" ")[1];
         var email = data.email;
         var id = data.id;
         var picture = data.picture.data.url;
-        fetch('http://localhost:3000/signup', {
+        fetch('http://159.203.251.115:3000/signup', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -99,7 +99,7 @@ class SignUp extends Component {
     //ensure all fields in our state is not empty
     if (this.state.firstName !== '' && this.state.lastName !== '' && this.state.password !== '' && this.state.passwordAgain !== '' && (this.state.password === this.state.passwordAgain) && re.test(this.state.email)) {
 
-      fetch('http://localhost:3000/signup', {
+      fetch('http://159.203.251.115:3000/signup', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -110,6 +110,8 @@ class SignUp extends Component {
           lastName: this.state.lastName,
           password: this.state.password,
           email: this.state.email,
+          fb: false, 
+          picture: null
         })
       })
       .then((res) => {

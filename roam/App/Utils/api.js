@@ -16,7 +16,7 @@ yelp.searchYelp = (searchPreferences, callback) => {
     var chosen = jsonData.businesses[randomIndex];
     callback(chosen);
   })
-  .catch((error) => {
+  .catch((error) => {U
     console.log('Error:', error);
   });
 };

@@ -723,8 +723,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "React-Native-Roam";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ROAM-Legacy";
 				PRODUCT_NAME = roam;
 				PROVISIONING_PROFILE = "";
 			};
@@ -753,9 +752,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "React-Native-Roam";
-
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ROAM-Legacy";
 				PRODUCT_NAME = roam;
 				PROVISIONING_PROFILE = "";
 			};

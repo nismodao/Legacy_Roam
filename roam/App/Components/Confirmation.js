@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Text, View, Image, TouchableHighlight, ListView} from 'react-native'
+import {Alert, Text, View, Image, TouchableHighlight, ListView} from 'react-native';
+import YourRoam from './YourRoam';
 var styles = require('./Helpers/styles');
 var _ = require('underscore');
 
@@ -17,9 +18,8 @@ class Confirmation extends Component {
     let coordinates = {};
     var context = this;
 
-    const fetchRoam = function(coordinates, bounds) {
-      console.log('sending ROAM request');
-      fetch('http://localhost:3000/roam', {
+    const fetchRoam = function(coordinates, bounds, clearTimer) {
+      fetch('http://159.203.251.115:3000/roam', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -33,14 +33,13 @@ class Confirmation extends Component {
             boundingBox: bounds
           })
         })
-        .then((res) => {
-          return res.json();
-        })
+        .then(res => res.json())
         .then((res) => {
           console.log('RESULT', res, typeof res);
           if (res.status !== 'No match'){
             //TODO: fix clearTimer
             //clearInterval(clearTimer);
+            //context.yourRoam.bind(context)();
             console.log('FOUND A MATCH!!!!!!!!!!');
             context.setState({
               roam: {
@@ -49,9 +48,6 @@ class Confirmation extends Component {
                 numRoamers: res.numRoamers,
               }
             });
-            //TODO: send push notification to user
-              //TODO: modify render Text to include this change
-            //TODO: send user to new RoamDetails Page
           }
         })
         .catch((error) => {
@@ -60,7 +56,7 @@ class Confirmation extends Component {
     } 
 
     const tenMinutes = 1000 * 60 * 10;
-    const d_fetchRoam = _.debounce(fetchRoam, tenMinutes, true);
+    const d_fetchRoam = _.debounce(fetchRoam, 5000, true);
 
     navigator.geolocation.getCurrentPosition( position => {
       let time = this.props.navigator.navigationContext._currentRoute.selectedTime;
@@ -84,15 +80,20 @@ class Confirmation extends Component {
       d_fetchRoam(position, bounds);
 
       let clearTimer = setInterval(() => {
-        //TODO: optimization needs to be done here
-        //fetch could still not be done when another fetch is made
         bounds += 0.04;
-        d_fetchRoam(position, bounds);
-
+        d_fetchRoam(position, bounds, clearTimer);
+        console.log('searching....');
         fetchCounter++;
-        fetchCounter === time ? clearInterval(clearTimer) : null;
-      }, tenMinutes);
+        fetchCounter === 100 ? clearInterval(clearTimer) : null;
+      }, 5000);
     });
+  }
+
+  yourRoam() {
+    this.props.navigator.push({
+      title: 'Your Roam',
+      component: YourRoam
+    })
   }
 
   handleCancel() {
@@ -103,7 +104,7 @@ class Confirmation extends Component {
 
     this.props.navigator.pop();
 
-    fetch('http://localhost:3000/cancel', {
+    fetch('http://159.203.251.115:3000/cancel', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
