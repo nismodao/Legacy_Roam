@@ -94,7 +94,7 @@ class Chat extends React.Component {
                         value={this.state.text}
                         onChange={this.handleMessage.bind(this)}>
                       </TextInput>
-                  </View> 
+                  </View>
                </View>
       })}
       <TouchableHighlight onPress={()=> {
